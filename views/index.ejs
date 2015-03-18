@@ -1,0 +1,17 @@
+<h1>Todos with Redis</h1>
+<!-- has a method of POST going to /create -->
+<h2>Add a todo task</h2>
+<form action="/create" method="POST">
+  <p>
+    <label for="task">Task: </label>
+    <input id="task" type="text" name="task" placeholder="Todo" autofocus require>
+    <input type="submit" value="Submit">
+  </p>
+</form>
+
+<h3>Current Todos:</h3>
+<ul>
+<% todos.forEach(function(todo){ %>
+   <li><%= todo %></li>
+<% }); %>
+</ul>
