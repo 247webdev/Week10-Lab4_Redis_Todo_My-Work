@@ -11,7 +11,11 @@
 
 <h3>Current Todos:</h3>
 <ul>
-<% todos.forEach(function(todo){ %>
-   <li><%= todo %></li>
-<% }); %>
+  <% todos.forEach(function(todo){ %>
+  <li>
+    <form action="/remove/<%= todo %>?_method=DELETE" method="POST">
+      <input type="submit" value="X"> <%= todo %>
+    </form>
+  </li>
+  <% }); %>
 </ul>

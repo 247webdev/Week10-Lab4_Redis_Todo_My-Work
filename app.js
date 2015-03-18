@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 
 // root route
 app.get('/', function(req, res){
-  client.LRANGE("todolist", 0, -1, function(err, todos){
+  client.LRANGE("todos", 0, -1, function(err, todos){
     res.render("index", {todos: todos});
   });
 });
@@ -23,10 +23,22 @@ app.get('/', function(req, res){
 // post route
 app.post('/create', function(req, res){
   console.log("In create", req.body);
-  // LPUSH  do some creating
-  client.LPUSH("todolist", req.body.task);
+  client.LPUSH("todos", req.body.task);
   res.redirect("/");  // redirects are to routes while renders are to views
 
+});
+
+// delete an individual item route
+app.delete('/remove/:todo', function(req, res){
+  console.log("In destroy", req.params.todo);
+  client.LRANGE("todos", 0, -1, function(err, todos){
+    todos.forEach(function(todo){
+      if(todo === req.params.todo){
+        client.LREM("todos", 1, todo);
+        res.redirect("/");
+      }
+    });
+  });
 });
 
 // start the server
